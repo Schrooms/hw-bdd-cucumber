@@ -15,7 +15,7 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  fail "Unimplemented"
+  expect(page.body.index(e1) < page.body.index(e2)).to be_truthy
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -32,5 +32,8 @@ end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  expect(page.all("tr:not(:has(th))").length).to eq Movie.all.length
+  #expect(page.all("tr:not(:has(th))").length).to eq Movie.all.length
+  Movie.all.each do | movie |
+    step "I should see \"#{movie.title}\""
+  end
 end
